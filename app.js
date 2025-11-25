@@ -2,6 +2,8 @@
 window.hierarchyData = null;
 window.searchIndex = null;
 let currentView = 'navigation';
+window.currentITReleaseFilter = null; // Track current IT Release filter state
+window.currentUseCaseFilter = null; // Track current Use Case filter state
 
 // Show/Hide Loading Indicator
 function showLoading() {
@@ -60,6 +62,188 @@ function toggleMobileMenu() {
 }
 
 window.toggleMobileMenu = toggleMobileMenu;
+
+// Filter Utility Function
+function filterHierarchyByITRelease(data, releaseValue) {
+    // If no filter or "All" selected, return original data
+    if (!releaseValue || releaseValue === 'All' || releaseValue === '') {
+        return data;
+    }
+
+    // Helper function to check if a node or its descendants match the filter
+    function hasMatchingL3(node) {
+        // If this is an L3 node, check if it_release matches
+        if (node.level === 'L3') {
+            const itRelease = node.it_release || '';
+            return itRelease.includes(releaseValue);
+        }
+
+        // If this node has children, check if any descendant matches
+        if (node.children && node.children.length > 0) {
+            return node.children.some(child => hasMatchingL3(child));
+        }
+
+        return false;
+    }
+
+    // Helper function to recursively filter the hierarchy
+    function filterNode(node) {
+        // Create a copy of the node
+        const filteredNode = { ...node };
+
+        // If this is an L3 node, include it only if it matches
+        if (node.level === 'L3') {
+            const itRelease = node.it_release || '';
+            return itRelease.includes(releaseValue) ? filteredNode : null;
+        }
+
+        // For L1 and L2 nodes, filter children recursively
+        if (node.children && node.children.length > 0) {
+            const filteredChildren = node.children
+                .map(child => filterNode(child))
+                .filter(child => child !== null);
+
+            // Only include this node if it has at least one matching child
+            if (filteredChildren.length > 0) {
+                filteredNode.children = filteredChildren;
+                return filteredNode;
+            }
+        }
+
+        return null;
+    }
+
+    // Apply filter to root node
+    const filteredData = filterNode(data);
+    
+    // If root has no matching children, return empty structure
+    if (!filteredData || !filteredData.children || filteredData.children.length === 0) {
+        return {
+            name: data.name || "Process Hierarchy",
+            children: []
+        };
+    }
+
+    return filteredData;
+}
+
+// Use Case Filter Utility Function
+function filterHierarchyByUseCase(data, useCaseValue) {
+    // If no filter or "All" selected, return original data
+    if (!useCaseValue || useCaseValue === 'All' || useCaseValue === '') {
+        return data;
+    }
+
+    // Helper function to check if use_case field matches the filter value
+    function matchesUseCase(useCaseField, filterValue) {
+        if (!useCaseField) return false;
+        
+        const useCaseLower = useCaseField.toLowerCase();
+        const filterLower = filterValue.toLowerCase();
+        
+        // Handle "Foundational" case - match the full phrase
+        if (filterLower.includes('foundational')) {
+            return useCaseLower.includes('foundational') && 
+                   useCaseLower.includes('not directly mapped to sce use case');
+        }
+        
+        // Handle "Use Case X" patterns - need to match exactly to avoid partial matches
+        // Extract the number from filter (e.g., "Use Case 1" -> "1")
+        const useCaseMatch = filterLower.match(/use case (\d+)/);
+        if (useCaseMatch) {
+            const filterNumber = useCaseMatch[1];
+            
+            // Create patterns that match "Use Case X" but not "Use Case X0", "Use Case X1", etc.
+            // Use word boundary or ensure the number is followed by a non-digit character
+            // This ensures "Use Case 1" doesn't match "Use Case 13" (because "3" is a digit)
+            // Also handle variations like "UC X:" or "Use Case X –"
+            const patterns = [
+                // "Use Case X" where X is followed by non-digit (space, dash, comma, colon, etc.) or end of string
+                // Using negative lookahead to ensure next char is not a digit
+                new RegExp(`use case ${filterNumber}(?!\\d)`, 'i'),
+                // "UC X" or "UC X:" where X is followed by non-digit
+                new RegExp(`uc\\s*${filterNumber}(?!\\d)`, 'i')
+            ];
+            
+            // Check if any pattern matches
+            return patterns.some(pattern => pattern.test(useCaseField));
+        }
+        
+        // Fallback to exact match for other cases
+        return useCaseLower.includes(filterLower);
+    }
+
+    // Helper function to check if a node or its descendants match the filter
+    function hasMatchingL3(node) {
+        // If this is an L3 node, check if use_case matches
+        if (node.level === 'L3') {
+            return matchesUseCase(node.use_case, useCaseValue);
+        }
+
+        // If this node has children, check if any descendant matches
+        if (node.children && node.children.length > 0) {
+            return node.children.some(child => hasMatchingL3(child));
+        }
+
+        return false;
+    }
+
+    // Helper function to recursively filter the hierarchy
+    function filterNode(node) {
+        // Create a copy of the node
+        const filteredNode = { ...node };
+
+        // If this is an L3 node, include it only if it matches
+        if (node.level === 'L3') {
+            return matchesUseCase(node.use_case, useCaseValue) ? filteredNode : null;
+        }
+
+        // For L1 and L2 nodes, filter children recursively
+        if (node.children && node.children.length > 0) {
+            const filteredChildren = node.children
+                .map(child => filterNode(child))
+                .filter(child => child !== null);
+
+            // Only include this node if it has at least one matching child
+            if (filteredChildren.length > 0) {
+                filteredNode.children = filteredChildren;
+                return filteredNode;
+            }
+        }
+
+        return null;
+    }
+
+    // Apply filter to root node
+    const filteredData = filterNode(data);
+    
+    // If root has no matching children, return empty structure
+    if (!filteredData || !filteredData.children || filteredData.children.length === 0) {
+        return {
+            name: data.name || "Process Hierarchy",
+            children: []
+        };
+    }
+
+    return filteredData;
+}
+
+// Combined Filter Function
+function filterHierarchy(data, itReleaseValue, useCaseValue) {
+    let filteredData = data;
+
+    // Apply IT Release filter first if provided
+    if (itReleaseValue && itReleaseValue !== 'All') {
+        filteredData = filterHierarchyByITRelease(filteredData, itReleaseValue);
+    }
+
+    // Apply Use Case filter on the result if provided
+    if (useCaseValue && useCaseValue !== 'All') {
+        filteredData = filterHierarchyByUseCase(filteredData, useCaseValue);
+    }
+
+    return filteredData;
+}
 
 // Initialize Application
 document.addEventListener('DOMContentLoaded', async () => {
@@ -124,9 +308,34 @@ function switchView(viewName) {
     const viewEl = document.getElementById(`${viewName}-view`);
     if (viewEl) viewEl.classList.remove('hidden');
 
-    // Trigger view specific initializations
-    if (viewName === 'tree') {
-        initTreeVisualization(hierarchyData);
+    // Sync filter dropdowns with current filter state
+    const navITReleaseFilter = document.getElementById('nav-it-release-filter');
+    const navUseCaseFilter = document.getElementById('nav-use-case-filter');
+    const treeITReleaseFilter = document.getElementById('tree-it-release-filter');
+    const treeUseCaseFilter = document.getElementById('tree-use-case-filter');
+    
+    if (navITReleaseFilter) {
+        navITReleaseFilter.value = window.currentITReleaseFilter || 'All';
+    }
+    if (navUseCaseFilter) {
+        navUseCaseFilter.value = window.currentUseCaseFilter || 'All';
+    }
+    if (treeITReleaseFilter) {
+        treeITReleaseFilter.value = window.currentITReleaseFilter || 'All';
+    }
+    if (treeUseCaseFilter) {
+        treeUseCaseFilter.value = window.currentUseCaseFilter || 'All';
+    }
+
+    // Trigger view specific initializations with current filters
+    if (viewName === 'navigation') {
+        if (hierarchyData) {
+            initNavigationView(hierarchyData, window.currentITReleaseFilter, window.currentUseCaseFilter);
+        }
+    } else if (viewName === 'tree') {
+        if (hierarchyData) {
+            initTreeVisualization(hierarchyData, window.currentITReleaseFilter, window.currentUseCaseFilter);
+        }
     }
 }
 
@@ -224,4 +433,7 @@ window.showError = showError;
 window.closeError = closeError;
 window.showSuccess = showSuccess;
 window.closeSuccess = closeSuccess;
+window.filterHierarchyByITRelease = filterHierarchyByITRelease;
+window.filterHierarchyByUseCase = filterHierarchyByUseCase;
+window.filterHierarchy = filterHierarchy;
 

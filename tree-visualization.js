@@ -1,11 +1,38 @@
-function initTreeVisualization(data) {
+function initTreeVisualization(data, itReleaseFilter = null, useCaseFilter = null) {
     const containerId = "#tree-container";
     const container = document.querySelector(containerId);
+    
+    // Store original data for filtering
+    originalTreeData = data;
     
     // Clear previous
     d3.select(containerId).selectAll("*").remove();
 
     if (!container) return;
+
+    // Apply combined filter if provided
+    let filteredData = data;
+    if (typeof filterHierarchy === 'function') {
+        filteredData = filterHierarchy(data, itReleaseFilter, useCaseFilter);
+    }
+
+    // Check if filtered data has any children
+    if (!filteredData.children || filteredData.children.length === 0) {
+        let message = 'No processes found.';
+        const activeFilters = [];
+        if (itReleaseFilter) {
+            activeFilters.push(`IT Release: ${itReleaseFilter}`);
+        }
+        if (useCaseFilter) {
+            activeFilters.push(`Use Case: ${useCaseFilter}`);
+        }
+        if (activeFilters.length > 0) {
+            message = `No processes found matching filter(s): ${activeFilters.join(', ')}`;
+        }
+        container.innerHTML = `<div class="flex items-center justify-center h-full text-gray-500">${message}</div>`;
+        setupTreeFilterListeners();
+        return;
+    }
 
     const width = container.clientWidth || 1000;
     const height = container.clientHeight || 800;
@@ -45,7 +72,7 @@ function initTreeVisualization(data) {
     const treeMap = d3.tree().nodeSize([30, 200]); 
 
     // Assign Parent, Children, Height, Depth
-    root = d3.hierarchy(data, function(d) { return d.children; });
+    root = d3.hierarchy(filteredData, function(d) { return d.children; });
     root.x0 = 0; 
     root.y0 = 0;
 
@@ -377,5 +404,114 @@ function initTreeVisualization(data) {
             }
         }
     }
+    
+    // Store references globally for expand/collapse functions
+    window.treeRoot = root;
+    window.treeUpdate = update;
+    
+    // Setup filter event listeners
+    setupTreeFilterListeners();
 }
+
+// Store original tree data for filtering
+let originalTreeData = null;
+
+function setupTreeFilterListeners() {
+    const itReleaseFilter = document.getElementById('tree-it-release-filter');
+    const useCaseFilter = document.getElementById('tree-use-case-filter');
+    
+    // Setup IT Release filter listener
+    if (itReleaseFilter && itReleaseFilter.dataset.listenerSetup !== 'true') {
+        itReleaseFilter.dataset.listenerSetup = 'true';
+        itReleaseFilter.addEventListener('change', (e) => {
+            const selectedValue = e.target.value;
+            window.currentITReleaseFilter = selectedValue === 'All' ? null : selectedValue;
+            
+            // Sync nav filter dropdown
+            const navITReleaseFilter = document.getElementById('nav-it-release-filter');
+            if (navITReleaseFilter) {
+                navITReleaseFilter.value = selectedValue;
+            }
+            
+            // Apply combined filter
+            applyTreeFilters();
+        });
+    }
+    
+    // Setup Use Case filter listener
+    if (useCaseFilter && useCaseFilter.dataset.listenerSetup !== 'true') {
+        useCaseFilter.dataset.listenerSetup = 'true';
+        useCaseFilter.addEventListener('change', (e) => {
+            const selectedValue = e.target.value;
+            window.currentUseCaseFilter = selectedValue === 'All' ? null : selectedValue;
+            
+            // Sync nav filter dropdown
+            const navUseCaseFilter = document.getElementById('nav-use-case-filter');
+            if (navUseCaseFilter) {
+                navUseCaseFilter.value = selectedValue;
+            }
+            
+            // Apply combined filter
+            applyTreeFilters();
+        });
+    }
+}
+
+function applyTreeFilters() {
+    // Re-initialize tree with combined filtered data
+    if (originalTreeData || window.hierarchyData) {
+        const dataToUse = originalTreeData || window.hierarchyData;
+        initTreeVisualization(dataToUse, window.currentITReleaseFilter, window.currentUseCaseFilter);
+    }
+}
+
+// Expand All function - expands all nodes in the tree
+window.expandAllTreeNodes = function() {
+    if (!window.treeRoot || !window.treeUpdate) {
+        return;
+    }
+    
+    // Recursively expand all nodes
+    function expandNode(node) {
+        if (node._children) {
+            node.children = node._children;
+            node._children = null;
+        }
+        if (node.children) {
+            node.children.forEach(expandNode);
+        }
+    }
+    
+    // Expand all children of root
+    if (window.treeRoot.children) {
+        window.treeRoot.children.forEach(expandNode);
+    }
+    
+    // Update the visualization
+    window.treeUpdate(window.treeRoot);
+};
+
+// Collapse All function - collapses to just L1 processes (or root if filtered)
+window.collapseAllTreeNodes = function() {
+    if (!window.treeRoot || !window.treeUpdate) {
+        return;
+    }
+    
+    // Recursively collapse all nodes except root
+    function collapseNode(node) {
+        if (node.children) {
+            node._children = node.children;
+            node._children.forEach(collapseNode);
+            node.children = null;
+        }
+    }
+    
+    // Collapse all children of root (this will collapse L1 children, which will collapse their L2 children, etc.)
+    if (window.treeRoot.children) {
+        window.treeRoot.children.forEach(collapseNode);
+    }
+    
+    // Update the visualization
+    window.treeUpdate(window.treeRoot);
+};
 

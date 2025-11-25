@@ -64,6 +64,46 @@
             
             <!-- Navigation View -->
             <div id="navigation-view" class="view-container h-full">
+                <div class="mb-4">
+                    <div class="flex flex-col md:flex-row md:items-end md:space-x-4 space-y-4 md:space-y-0">
+                        <div class="flex-1 md:flex-initial">
+                            <label for="nav-it-release-filter" class="block text-sm font-medium text-gray-700 mb-2">Filter by IT Release</label>
+                            <select id="nav-it-release-filter" 
+                                    class="w-full md:w-auto px-4 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 min-h-[44px]"
+                                    aria-label="Filter processes by IT Release">
+                                <option value="All">All</option>
+                                <option value="IT Release 1">IT Release 1</option>
+                                <option value="IT Release 2">IT Release 2</option>
+                                <option value="IT Release 3">IT Release 3</option>
+                            </select>
+                        </div>
+                        <div class="flex-1 md:flex-initial">
+                            <label for="nav-use-case-filter" class="block text-sm font-medium text-gray-700 mb-2">Filter by Use Case</label>
+                            <select id="nav-use-case-filter" 
+                                    class="w-full md:w-auto px-4 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 min-h-[44px]"
+                                    aria-label="Filter processes by Use Case">
+                                <option value="All">All</option>
+                                <option value="Use Case 1">Use Case 1 - Meter-to-Cash</option>
+                                <option value="Use Case 2">Use Case 2 - Optimizing Energy Savings</option>
+                                <option value="Use Case 3">Use Case 3 - Improve Customer Experience</option>
+                                <option value="Use Case 4">Use Case 4 - Revenue Protection</option>
+                                <option value="Use Case 5">Use Case 5 - Advanced Outage Identification</option>
+                                <option value="Use Case 6">Use Case 6 - 3rd Party Meter Data Access</option>
+                                <option value="Use Case 7">Use Case 7 - Long-Term Grid Planning</option>
+                                <option value="Use Case 8">Use Case 8 - Anomaly & Fault Detection BTM</option>
+                                <option value="Use Case 9">Use Case 9 - Environmental Monitoring</option>
+                                <option value="Use Case 10">Use Case 10 - Performance & Health of Dist. Assets</option>
+                                <option value="Use Case 11">Use Case 11 - Distribution Connectivity Model</option>
+                                <option value="Use Case 12">Use Case 12 - Switching Support & Outage Selection</option>
+                                <option value="Use Case 13">Use Case 13 - Post Event Analysis</option>
+                                <option value="Use Case 14">Use Case 14 - AMI 2.0 Interoperability</option>
+                                <option value="Use Case 15">Use Case 15 - Fault & Incipient Fault ID</option>
+                                <option value="Use Case 18">Use Case 18 - Grid Ops: Situational Awareness</option>
+                                <option value="Foundational – Not Directly Mapped to SCE Use Case">Foundational – Not Directly Mapped to SCE Use Case</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
                 <div id="breadcrumbs" class="mb-4 flex items-center text-sm text-gray-600">
                     <!-- Breadcrumbs injected here -->
                 </div>
@@ -74,6 +114,60 @@
 
             <!-- Tree View -->
             <div id="tree-view" class="view-container hidden h-full w-full bg-white rounded-lg shadow">
+                <div class="p-4 border-b border-gray-200">
+                    <div class="flex flex-col md:flex-row md:items-end md:space-x-4 space-y-4 md:space-y-0">
+                        <div class="flex-1 md:flex-initial">
+                            <label for="tree-it-release-filter" class="block text-sm font-medium text-gray-700 mb-2">Filter by IT Release</label>
+                            <select id="tree-it-release-filter" 
+                                    class="w-full md:w-auto px-4 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 min-h-[44px]"
+                                    aria-label="Filter processes by IT Release">
+                                <option value="All">All</option>
+                                <option value="IT Release 1">IT Release 1</option>
+                                <option value="IT Release 2">IT Release 2</option>
+                                <option value="IT Release 3">IT Release 3</option>
+                            </select>
+                        </div>
+                        <div class="flex-1 md:flex-initial">
+                            <label for="tree-use-case-filter" class="block text-sm font-medium text-gray-700 mb-2">Filter by Use Case</label>
+                            <select id="tree-use-case-filter" 
+                                    class="w-full md:w-auto px-4 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 min-h-[44px]"
+                                    aria-label="Filter processes by Use Case">
+                                <option value="All">All</option>
+                                <option value="Use Case 1">Use Case 1 - Meter-to-Cash</option>
+                                <option value="Use Case 2">Use Case 2 - Optimizing Energy Savings</option>
+                                <option value="Use Case 3">Use Case 3 - Improve Customer Experience</option>
+                                <option value="Use Case 4">Use Case 4 - Revenue Protection</option>
+                                <option value="Use Case 5">Use Case 5 - Advanced Outage Identification</option>
+                                <option value="Use Case 6">Use Case 6 - 3rd Party Meter Data Access</option>
+                                <option value="Use Case 7">Use Case 7 - Long-Term Grid Planning</option>
+                                <option value="Use Case 8">Use Case 8 - Anomaly & Fault Detection BTM</option>
+                                <option value="Use Case 9">Use Case 9 - Environmental Monitoring</option>
+                                <option value="Use Case 10">Use Case 10 - Performance & Health of Dist. Assets</option>
+                                <option value="Use Case 11">Use Case 11 - Distribution Connectivity Model</option>
+                                <option value="Use Case 12">Use Case 12 - Switching Support & Outage Selection</option>
+                                <option value="Use Case 13">Use Case 13 - Post Event Analysis</option>
+                                <option value="Use Case 14">Use Case 14 - AMI 2.0 Interoperability</option>
+                                <option value="Use Case 15">Use Case 15 - Fault & Incipient Fault ID</option>
+                                <option value="Use Case 18">Use Case 18 - Grid Ops: Situational Awareness</option>
+                                <option value="Foundational – Not Directly Mapped to SCE Use Case">Foundational – Not Directly Mapped to SCE Use Case</option>
+                            </select>
+                        </div>
+                        <div class="flex items-end space-x-2">
+                            <button id="expand-all-btn" 
+                                    onclick="expandAllTreeNodes()"
+                                    class="px-4 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 min-h-[44px]"
+                                    aria-label="Expand all tree nodes">
+                                Expand All
+                            </button>
+                            <button id="collapse-all-btn" 
+                                    onclick="collapseAllTreeNodes()"
+                                    class="px-4 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 min-h-[44px]"
+                                    aria-label="Collapse all tree nodes">
+                                Collapse All
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 <div id="tree-container" class="w-full h-full overflow-hidden"></div>
             </div>
 

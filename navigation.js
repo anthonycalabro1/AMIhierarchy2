@@ -1,10 +1,79 @@
 let currentNavData = null;
 let navHistory = []; // Array of objects { name: "Root", data: ... }
+let originalNavData = null; // Store original unfiltered data
 
-function initNavigationView(data) {
+function initNavigationView(data, itReleaseFilter = null, useCaseFilter = null) {
+    // Store original data
+    originalNavData = data;
+    
+    // Apply combined filter if provided
+    let filteredData = data;
+    if (typeof filterHierarchy === 'function') {
+        filteredData = filterHierarchy(data, itReleaseFilter, useCaseFilter);
+    }
+    
     // Reset history
-    navHistory = [{ name: "All Processes", data: data }];
-    renderNavigationView(data);
+    navHistory = [{ name: "All Processes", data: filteredData }];
+    renderNavigationView(filteredData);
+    
+    // Setup filter event listeners if not already set up
+    setupNavFilterListeners();
+}
+
+function setupNavFilterListeners() {
+    const itReleaseFilter = document.getElementById('nav-it-release-filter');
+    const useCaseFilter = document.getElementById('nav-use-case-filter');
+    
+    // Setup IT Release filter listener
+    if (itReleaseFilter && itReleaseFilter.dataset.listenerSetup !== 'true') {
+        itReleaseFilter.dataset.listenerSetup = 'true';
+        itReleaseFilter.addEventListener('change', (e) => {
+            const selectedValue = e.target.value;
+            window.currentITReleaseFilter = selectedValue === 'All' ? null : selectedValue;
+            
+            // Sync tree filter dropdown
+            const treeITReleaseFilter = document.getElementById('tree-it-release-filter');
+            if (treeITReleaseFilter) {
+                treeITReleaseFilter.value = selectedValue;
+            }
+            
+            // Apply combined filter
+            applyNavFilters();
+        });
+    }
+    
+    // Setup Use Case filter listener
+    if (useCaseFilter && useCaseFilter.dataset.listenerSetup !== 'true') {
+        useCaseFilter.dataset.listenerSetup = 'true';
+        useCaseFilter.addEventListener('change', (e) => {
+            const selectedValue = e.target.value;
+            window.currentUseCaseFilter = selectedValue === 'All' ? null : selectedValue;
+            
+            // Sync tree filter dropdown
+            const treeUseCaseFilter = document.getElementById('tree-use-case-filter');
+            if (treeUseCaseFilter) {
+                treeUseCaseFilter.value = selectedValue;
+            }
+            
+            // Apply combined filter
+            applyNavFilters();
+        });
+    }
+}
+
+function applyNavFilters() {
+    // Re-apply combined filter to original data
+    if (originalNavData && typeof filterHierarchy === 'function') {
+        const filteredData = filterHierarchy(
+            originalNavData, 
+            window.currentITReleaseFilter, 
+            window.currentUseCaseFilter
+        );
+        
+        // Reset navigation history with filtered data
+        navHistory = [{ name: "All Processes", data: filteredData }];
+        renderNavigationView(filteredData);
+    }
 }
 
 function renderNavigationView(nodeData) {
@@ -23,7 +92,18 @@ function renderNavigationView(nodeData) {
     // unless we clicked an L3, but L3 click should open details.
     
     if (!nodeData.children || nodeData.children.length === 0) {
-        container.innerHTML = '<div class="p-4 text-gray-500">No child processes found.</div>';
+        let filterMessage = 'No child processes found.';
+        const activeFilters = [];
+        if (window.currentITReleaseFilter) {
+            activeFilters.push(`IT Release: ${window.currentITReleaseFilter}`);
+        }
+        if (window.currentUseCaseFilter) {
+            activeFilters.push(`Use Case: ${window.currentUseCaseFilter}`);
+        }
+        if (activeFilters.length > 0) {
+            filterMessage = `No processes found matching filter(s): ${activeFilters.join(', ')}`;
+        }
+        container.innerHTML = `<div class="p-4 text-gray-500">${filterMessage}</div>`;
         return;
     }
 
