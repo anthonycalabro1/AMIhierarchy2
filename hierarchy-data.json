@@ -113,7 +113,7 @@
             {
               "name": "Reconcile installation records between systems",
               "level": "L3",
-              "objective": "Cross-check installation completion data between MIV, MDMS, and CIS for consistency.",
+              "objective": "Cross-check installation completion data between Asset Management, CIS MDMS and HES for consistency.",
               "use_case": "Foundational \u2013 Not Directly Mapped to SCE Use Case",
               "it_release": "IT Release 1"
             }
@@ -240,7 +240,7 @@
               "name": "Conduct meter investigations",
               "level": "L3",
               "objective": "Dispatch field investigations for customer complaints, abnormal reads, or communication failures.",
-              "use_case": "Use Case 4 \u2013 Revenue Protection, Use Case 10 \u2013 Performance and Health of Distribution System Assets",
+              "use_case": "Use Case 4 \u2013 Revenue Protection\nUse Case 10 \u2013 Performance and Health of Distribution System Assets",
               "it_release": "IT Release 1"
             },
             {
@@ -257,16 +257,16 @@
           "level": "L2",
           "children": [
             {
-              "name": "Perform remote disconnect / reconnect for move-out or move-in",
+              "name": "Perform remote disconnect / reconnect for move-out",
               "level": "L3",
-              "objective": "Execute and validate remote meter disconnect or reconnect commands in coordination with CIS and MDMS.",
+              "objective": "Execute and validate remote meter disconnect commands in coordination with CIS and MDMS.",
               "use_case": "Foundational \u2013 Not Directly Mapped to SCE Use Case",
               "it_release": "IT Release 1"
             },
             {
-              "name": "Perform remote disconnect / reconnect for move-in or move-out",
+              "name": "Perform remote disconnect / reconnect for move-in",
               "level": "L3",
-              "objective": "Execute remote meter operations for customer occupancy changes in coordination with CIS.",
+              "objective": "Execute and validate remote meter redisconnect commands in coordination with CIS and MDMS.",
               "use_case": "Foundational \u2013 Not Directly Mapped to SCE Use Case",
               "it_release": "IT Release 1"
             },
@@ -293,7 +293,7 @@
             {
               "name": "Install and maintain network access points",
               "level": "L3",
-              "objective": "Coordinate installation, maintenance, and retirement of network access points or routers supporting AMI communications.",
+              "objective": "Coordinate installation of network access points or routers supporting AMI communications.",
               "use_case": "Use Case 14 \u2013 AMI 2.0 Interoperability",
               "it_release": "IT Release 1"
             },
@@ -327,7 +327,7 @@
               "name": "Resolve data gaps and anomalies (HES)",
               "level": "L3",
               "objective": "Detect and correct missing or inconsistent AMI data to maintain billing and analytics integrity.",
-              "use_case": "Use Case 1 \u2013 Meter-to-Cash, Use Case 10 \u2013 Performance and Health of Distribution System Assets",
+              "use_case": "Use Case 1 \u2013 Meter-to-Cash\nUse Case 10 \u2013 Performance and Health of Distribution System Assets",
               "it_release": "IT Release 1 (retouched in IT Release 2)"
             },
             {
@@ -388,14 +388,14 @@
               "name": "Manage Demand Response Event Settlement",
               "level": "L3",
               "objective": "Calculate baseline usage (CBL) and performance metrics for DR events to determine financial settlement/credits distinct from standard billing.",
-              "use_case": "Use Case 3- Improve Customer Experience",
+              "use_case": "Use Case 3 \u2013 Improve Customer Experience",
               "it_release": "IT Release 3"
             },
             {
               "name": "Manage EV Panel Capacity Limits",
               "level": "L3",
               "objective": "Configure panel capacity thresholds and safe-loading limits in the back-office system to enable \"Panel Upgrade Avoidance\" logic at the edge.",
-              "use_case": "UC 3: Improve Customer Experience, UC 7: Long-Term Grid Planning",
+              "use_case": "Use Case 3 \u2013 Improve Customer Experience\nUse Case 7 \u2013 Long-Term Grid Planning",
               "it_release": "IT Release 3"
             }
           ]
@@ -426,7 +426,7 @@
               "it_release": "IT Release 1"
             },
             {
-              "name": "Manage billing exceptions and rebills",
+              "name": "Manage billing exceptions",
               "level": "L3",
               "objective": "Identify, investigate, and resolve billing errors or anomalies to maintain billing accuracy and customer trust.",
               "use_case": "Use Case 1 \u2013 Meter-to-Cash",
@@ -449,14 +449,14 @@
               "name": "Manage Virtual Net Metering (VNM) Allocations",
               "level": "L3",
               "objective": "Configure and maintain allocation percentages between generating accounts and benefiting accounts to ensure accurate credit distribution.",
-              "use_case": "Use Case 1 \u2013 Meter-to-Cash, UC 2: Optimizing Energy Savings, UC 7: Long-Term Grid Planning",
+              "use_case": "Use Case 1 \u2013 Meter-to-Cash\nUse Case 2 \u2013 Optimizing Energy Savings\nUse Case 7 \u2013 Long-Term Grid Planning",
               "it_release": "IT Release 1"
             },
             {
               "name": "Manage NEM Aggregation (NEM-A) Structures",
               "level": "L3",
               "objective": "Establish and maintain the linkage between a principal generating account and multiple aggregated usage accounts for unified billing settlement.",
-              "use_case": "Use Case 1 \u2013 Meter-to-Cash, UC 2: Optimizing Energy Savings, UC 7: Long-Term Grid Planning",
+              "use_case": "Use Case 1 \u2013 Meter-to-Cash\nUse Case 2 \u2013 Optimizing Energy Savings\nUse Case 7 \u2013 Long-Term Grid Planning",
               "it_release": "IT Release 1"
             }
           ]
@@ -483,7 +483,7 @@
               "name": "Resolve AMI billing data mismatches",
               "level": "L3",
               "objective": "Investigate and correct discrepancies between AMI interval data, MDMS values, and CIS billing determinants to ensure accurate billing before finalization.",
-              "use_case": "Use Case 1 \u2013 Meter-to-Cash, Use Case 3 \u2013 Improve Customer Experience",
+              "use_case": "Use Case 1 \u2013 Meter-to-Cash\nUse Case 3 \u2013 Improve Customer Experience",
               "it_release": "IT Release 1"
             }
           ]
@@ -630,7 +630,7 @@
               "name": "Establish Meter-to-Transformer Topology",
               "level": "L3",
               "objective": "Analyze meter voltage correlation data to determine the parent-child physical link between meters and service transformers.",
-              "use_case": "Use Case 11 \u2013 Distribution Connectivity Model & Monitoring",
+              "use_case": "Use Case 11 \u2013 Distribution Connectivity Model & Monitoring\nUse Case 18 - Grid Ops: Situational Awareness",
               "it_release": "IT Release 2"
             },
             {
@@ -651,7 +651,7 @@
               "name": "Integrate connectivity model with outage and DER tools",
               "level": "L3",
               "objective": "Provide real-time connectivity data to outage and DER planning applications for situational awareness.",
-              "use_case": "Use Case 11 \u2013 Distribution Connectivity Model & Monitoring",
+              "use_case": "Use Case 11 \u2013 Distribution Connectivity Model & Monitoring\nUse Case 18 - Grid Ops: Situational Awareness",
               "it_release": "IT Release 2"
             }
           ]
@@ -691,14 +691,14 @@
               "name": "Correlate load changes with customer profiles",
               "level": "L3",
               "objective": "Analyze BTM load data with customer profiles to refine forecasting and anomaly detection.",
-              "use_case": "Use Case 7 \u2013 Long-Term Grid Planning",
+              "use_case": "Use Case 7 \u2013 Long-Term Grid Planning\nUse Case 18 - Grid Ops: Situational Awareness",
               "it_release": "IT Release 3"
             },
             {
               "name": "Detect Unapproved DER Interconnection",
               "level": "L3",
               "objective": "Compare detected generation signatures against known interconnection records to identify unauthorized solar or storage back-feeding.",
-              "use_case": "UC 8: Anomaly & Fault Detection BTM, UC 4: Revenue Protection",
+              "use_case": "Use Case 8 \u2013 Anomaly & Fault Detection BTM\nUse Case 4 \u2013 Revenue Protection",
               "it_release": "IT Release 2"
             }
           ]
@@ -772,7 +772,7 @@
               "name": "Prioritize maintenance for at-risk assets",
               "level": "L3",
               "objective": "Generate maintenance recommendations for assets showing early fault conditions.",
-              "use_case": "Use Case 15 \u2013 Fault & Incipient Fault Identification, Use Case 10 \u2013 Performance and Health",
+              "use_case": "Use Case 15 \u2013 Fault & Incipient Fault Identification\nUse Case 10 \u2013 Performance and Health of Distribution System Assets",
               "it_release": "IT Release 2 (retouched in IT Release 3)"
             }
           ]
@@ -785,14 +785,14 @@
               "name": "Detect and Respond to Hot Socket Alarms",
               "level": "L3",
               "objective": "Monitor real-time temperature alarms from meters, validate \"Hot Socket\" conditions, and trigger immediate safety disconnects or field dispatches.",
-              "use_case": "UC 8: Anomaly & Fault Detection BTM, UC 5: Advanced Outage Identification",
+              "use_case": "Use Case 8 \u2013 Anomaly & Fault Detection BTM\nUse Case 5 \u2013 Advanced Outage Identification",
               "it_release": "IT Release 1 (retouched in IT Release 2)"
             },
             {
               "name": "Identify and Resolve Neutral Connection Issues",
               "level": "L3",
               "objective": "Analyze voltage and impedance data to detect \"Loose Neutral\" conditions and prioritize field investigation to prevent equipment damage.",
-              "use_case": "UC 8: Anomaly & Fault Detection BTM, UC 10: Performance & Health of Dist. System",
+              "use_case": "Use Case 8 \u2013 Anomaly & Fault Detection BTM\nUse Case 10 \u2013 Performance and Health of Distribution System Assets",
               "it_release": "IT Release 2"
             }
           ]
@@ -852,7 +852,7 @@
               "name": "Deliver outage and restoration notifications to customers",
               "level": "L3",
               "objective": "Send real-time outage and restoration status updates to impacted customers through preferred communication channels.",
-              "use_case": "UC 3 \u2013 Improve Customer Experience, UC 5 \u2013 Advanced Outage Identification",
+              "use_case": "Use Case 3 \u2013 Improve Customer Experience\nUse Case 5 \u2013 Advanced Outage Identification",
               "it_release": "IT Release 2 (retouched in IT Release 3)"
             }
           ]
@@ -885,7 +885,7 @@
               "name": "Analyze waveform signatures",
               "level": "L3",
               "objective": "Request and analyze high-resolution waveform captures (pre/post event) to determine the specific electrical signature of complex faults.",
-              "use_case": "UC 10: Performance & Health of Dist. System, UC 13: Post Event Analysis",
+              "use_case": "Use Case 10 \u2013 Performance and Health of Distribution System Assets\nUse Case 13 \u2013 Post Event Analysis",
               "it_release": "IT Release 2 (retouched in IT Release 3)"
             },
             {
@@ -965,7 +965,7 @@
               "name": "Send test or diagnostic commands",
               "level": "L3",
               "objective": "Send diagnostic commands to validate meter health or confirm firmware behavior.",
-              "use_case": "Use Case 14 \u2013 AMI 2.0 Interoperability",
+              "use_case": "Foundational \u2013 Not Directly Mapped to SCE Use Case",
               "it_release": "IT Release 1"
             },
             {
@@ -1038,14 +1038,14 @@
               "name": "Capture and correlate operational events across AMI, OMS, and CIS",
               "level": "L3",
               "objective": "Correlate operational events to identify cross-domain dependencies and performance insights.",
-              "use_case": "Use Case 13 \u2013 Post Event Analysis, Use Case 14 \u2013 AMI 2.0 Interoperability",
+              "use_case": "Use Case 13 \u2013 Post Event Analysis\nUse Case 14 \u2013 AMI 2.0 Interoperability",
               "it_release": "IT Release 3"
             },
             {
               "name": "Identify cross-system anomalies",
               "level": "L3",
               "objective": "Detect inconsistencies between AMI, OMS, and SCADA data to enhance reliability.",
-              "use_case": "Use Case 13 \u2013 Post Event Analysis, Use Case 15 \u2013 Fault & Incipient Fault Identification on the Distribution System",
+              "use_case": "Use Case 13 \u2013 Post Event Analysis\nUse Case 15 \u2013 Fault & Incipient Fault Identification on the Distribution System",
               "it_release": "IT Release 3"
             }
           ]
@@ -1071,7 +1071,7 @@
               "name": "Maintain Operational Device Segments & Groups",
               "level": "L3",
               "objective": "Define and maintain the business logic for meter groups (e.g., \"Fire Risk Zones,\" \"EV Users\") used to target firmware, configurations, and commands.",
-              "use_case": "UC 14: AMI 2.0 Interoperability\nUC 3: Improve Customer Experience",
+              "use_case": "Use Case 14 \u2013 AMI 2.0 Interoperability\nUse Case 3 \u2013 Improve Customer Experience",
               "it_release": "IT Release 1 (retouched in IT Release 2)"
             }
           ]
@@ -1111,7 +1111,7 @@
               "name": "Design and maintain AMI dashboards",
               "level": "L3",
               "objective": "Create and maintain dashboards to visualize AMI performance, reliability, and customer insights.",
-              "use_case": "Use Case 13 \u2013 Post Event Analysis, Use Case 18 \u2013 Grid Ops: Situational Awareness",
+              "use_case": "Use Case 13 \u2013 Post Event Analysis\nUse Case 18 \u2013 Grid Ops: Situational Awareness",
               "it_release": "IT Release 3"
             },
             {
